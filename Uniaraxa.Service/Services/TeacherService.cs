@@ -1,8 +1,7 @@
 using Domain.Entities;
 using Domain.Interfaces;
-using Service.Interfaces;
 
-namespace Service.Services;
+namespace Uniaraxa.Service.Services;
 
 public class TeacherService : ITeacherService
 {

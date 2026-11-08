@@ -1,6 +1,6 @@
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Service.Interfaces;
+using Uniaraxa.Service.Services;
 
 namespace API.Controllers;
 

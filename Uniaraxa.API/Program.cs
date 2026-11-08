@@ -1,12 +1,9 @@
 using Domain.Interfaces;
 using Infra.Repositories;
-using Service.Interfaces;
-using Service.Services;
+using Uniaraxa.Service.Services;
 
 
 var builder = WebApplication.CreateBuilder();
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ITeacherRepository, TeacherRepository>();

@@ -1,6 +1,6 @@
 using Domain.Entities;
 
-namespace Service.Interfaces;
+namespace Uniaraxa.Service.Services;
 
 public interface ITeacherService
 {
