@@ -1,8 +1,10 @@
-using Uniaraxa.Domain.Interfaces;
-using Uniaraxa.Infra.Repositories;
-using Uniaraxa.Service.Services;
+using Domain.Interfaces;
+using Infra.Repositories;
+using Service.Interfaces;
+using Service.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+
+var builder = WebApplication.CreateBuilder();
 
 // Add services to the container.
 

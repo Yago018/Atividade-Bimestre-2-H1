@@ -1,13 +1,12 @@
-using Uniaraxa.Domain.Entities;
+using Domain.Entities;
 
-namespace Uniaraxa.Domain.Interfaces
+namespace Domain.Interfaces;
+
+public interface ITeacherRepository
 {
-    public interface ITeacherRepository
-    {
-        void AddTeacher(Teacher teacher);
-        bool UpdateTeacher(Teacher teacher);
-        bool DeleteTeacher(int id);
-        Teacher? GetTeacherById(int id);
-        List<Teacher> GetAllTeachers();
-    }
+    Teacher Inserir(Teacher teacher);
+    bool Atualizar(int id, Teacher teacher);
+    IEnumerable<Teacher> ListarTodos();
+    Teacher? BuscarPorId(int id);
+    bool Remover(int id);
 }

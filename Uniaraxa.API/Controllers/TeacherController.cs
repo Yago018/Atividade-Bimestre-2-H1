@@ -1,50 +1,64 @@
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Uniaraxa.Domain.Entities;
-using Uniaraxa.Service.Services;
+using Service.Interfaces;
 
-namespace Uniaraxa.API.Controllers
+namespace API.Controllers;
+
+[ApiController]
+[Route("api/teachers")]
+public class TeacherController : ControllerBase
 {
-    [ApiController]
-    [Route("api/teacher")]
-    public class TeacherController : ControllerBase
+    private readonly ITeacherService _service;
+
+    public TeacherController(ITeacherService service)
     {
-        private readonly ITeacherService _teacherService;
+        _service = service;
+    }
 
-        public TeacherController(ITeacherService teacherService)
-        {
-            _teacherService = teacherService;
-        }
+    [HttpPost]
+    public ActionResult<Teacher> Inserir([FromBody] Teacher teacher)
+    {
+        var criado = _service.Inserir(teacher);
 
-        [HttpGet]
-        public IActionResult GetAllTeachers() => Ok(_teacherService.GetAllTeachers());
+        return CreatedAtAction(
+            nameof(BuscarPorId),
+            new { id = criado.Id },
+            criado);
+    }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetTeacherById(int id)
-        {
-            var teacher = _teacherService.GetTeacherById(id);
-            return teacher is null ? NotFound() : Ok(teacher);
-        }
+    [HttpPut("{id:int}")]
+    public IActionResult Atualizar(int id, [FromBody] Teacher teacher)
+    {
+        // O ID da rota identifica o registro a atualizar.
+        if (!_service.Atualizar(id, teacher))
+            return NotFound();
 
-        [HttpPost]
-        public IActionResult AddTeacher([FromBody] Teacher teacher)
-        {
-            _teacherService.AddTeacher(teacher);
-            return CreatedAtAction(nameof(GetTeacherById), new { id = teacher.Id }, teacher);
-        }
+        return NoContent();
+    }
 
-        [HttpPut("{id:int}")]
-        public IActionResult UpdateTeacher(int id, [FromBody] Teacher teacher)
-        {
-            if (id != teacher.Id)
-                return BadRequest("O ID da rota deve ser igual ao ID do professor.");
+    [HttpGet]
+    public ActionResult<IEnumerable<Teacher>> ListarTodos()
+    {
+        return Ok(_service.ListarTodos());
+    }
 
-            return _teacherService.UpdateTeacher(teacher) ? NoContent() : NotFound();
-        }
+    [HttpGet("{id:int}")]
+    public ActionResult<Teacher> BuscarPorId(int id)
+    {
+        var teacher = _service.BuscarPorId(id);
 
-        [HttpDelete("{id:int}")]
-        public IActionResult DeleteTeacher(int id)
-        {
-            return _teacherService.DeleteTeacher(id) ? NoContent() : NotFound();
-        }
+        if (teacher is null)
+            return NotFound();
+
+        return Ok(teacher);
+    }
+
+    [HttpDelete("{id:int}")]
+    public IActionResult Remover(int id)
+    {
+        if (!_service.Remover(id))
+            return NotFound();
+
+        return NoContent();
     }
 }

@@ -1,25 +1,30 @@
-using Uniaraxa.Domain.Entities;
-using Uniaraxa.Domain.Interfaces;
+using Domain.Entities;
+using Domain.Interfaces;
+using Service.Interfaces;
 
-namespace Uniaraxa.Service.Services
+namespace Service.Services;
+
+public class TeacherService : ITeacherService
 {
-    public class TeacherService : ITeacherService
+    private readonly ITeacherRepository _repository;
+
+    public TeacherService(ITeacherRepository repository)
     {
-        private readonly ITeacherRepository _teacherRepository;
-
-        public TeacherService(ITeacherRepository teacherRepository)
-        {
-            _teacherRepository = teacherRepository;
-        }
-
-        public void AddTeacher(Teacher teacher) => _teacherRepository.AddTeacher(teacher);
-
-        public bool UpdateTeacher(Teacher teacher) => _teacherRepository.UpdateTeacher(teacher);
-
-        public bool DeleteTeacher(int id) => _teacherRepository.DeleteTeacher(id);
-
-        public Teacher? GetTeacherById(int id) => _teacherRepository.GetTeacherById(id);
-
-        public List<Teacher> GetAllTeachers() => _teacherRepository.GetAllTeachers();
+        _repository = repository;
     }
+
+    public Teacher Inserir(Teacher teacher)
+        => _repository.Inserir(teacher);
+
+    public bool Atualizar(int id, Teacher teacher)
+        => _repository.Atualizar(id, teacher);
+
+    public IEnumerable<Teacher> ListarTodos()
+        => _repository.ListarTodos();
+
+    public Teacher? BuscarPorId(int id)
+        => _repository.BuscarPorId(id);
+
+    public bool Remover(int id)
+        => _repository.Remover(id);
 }
